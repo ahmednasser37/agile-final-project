@@ -3,3 +3,4 @@ Jinja2==3.1.6
 requests==2.33.1
 Werkzeug==3.1.8
 xerparser==2.0.2
+gunicorn==21.2.0
