@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 2rem; background: #f3f4f6; color: #1f2937; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h3 { margin-top: 0; color: #6b7280; font-size: 0.875rem; text-transform: uppercase; }
+        .card .value { font-size: 1.5rem; font-weight: bold; color: #111827; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; font-weight: 600; color: #4b5563; }
+        .badge { padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .badge-added { background: #d1fae5; color: #065f46; }
+        .badge-deleted { background: #fee2e2; color: #991b1b; }
+        .badge-changed { background: #fef3c7; color: #92400e; }
+        .badge-unchanged { background: #f3f4f6; color: #374151; }
+        .nav-links a { color: #3b82f6; text-decoration: none; margin-left: 1rem; }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Schedule Comparison Dashboard</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('export_csv', session_id=session_id) }}">Download CSV</a>
+                <a href="/">← New Comparison</a>
+            </div>
+        </div>
+
+        {% if ai_summary %}
+        <div class="ai-summary" style="background: #e0f2fe; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #0284c7;">
+            <h2 style="margin-top: 0; color: #0369a1; font-size: 1.25rem;">✨ AI Insights</h2>
+            <p style="margin-bottom: 1rem; color: #0c4a6e;"><strong>Executive Summary:</strong> {{ ai_summary.get('executive_summary', 'N/A') }}</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <h3 style="color: #0369a1; font-size: 1rem; margin-bottom: 0.5rem;">Key Risks</h3>
+                    <ul style="margin: 0; padding-left: 1.5rem; color: #0c4a6e;">
+                        {% for risk in ai_summary.get('key_risks', []) %}
+                        <li>{{ risk }}</li>
+                        {% else %}
+                        <li>No key risks identified.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #0369a1; font-size: 1rem; margin-bottom: 0.5rem;">Health Assessment</h3>
+                    <p style="margin: 0; color: #0c4a6e;">{{ ai_summary.get('schedule_health_assessment', 'N/A') }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card-grid">
+            <div class="card">
+                <h3>Baseline Data Date</h3>
+                <div class="value">{{ comparison.baseline_date.strftime('%Y-%m-%d %H:%M') if comparison.baseline_date else 'N/A' }}</div>
+            </div>
+            <div class="card">
+                <h3>Updated Data Date</h3>
+                <div class="value">{{ comparison.updated_date.strftime('%Y-%m-%d %H:%M') if comparison.updated_date else 'N/A' }}</div>
+            </div>
+            <div class="card">
+                <h3>Added Activities</h3>
+                <div class="value">{{ comparison.added_activities }}</div>
+            </div>
+            <div class="card">
+                <h3>Deleted Activities</h3>
+                <div class="value">{{ comparison.deleted_activities }}</div>
+            </div>
+            <div class="card">
+                <h3>Changed Activities</h3>
+                <div class="value">{{ comparison.changed_activities }}</div>
+            </div>
+        </div>
+
+        <h2>Variances</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Activity ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Date Variance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in comparison.variances %}
+                <tr>
+                    <td>{{ v.activity_code }}</td>
+                    <td>{{ v.name }}</td>
+                    <td>
+                        <span class="badge badge-{{ v.status }}">{{ v.status|capitalize }}</span>
+                    </td>
+                    <td>
+                        {% if v.start_variance %}
+                            Start changed:
+                            {{ v.start_variance[0].strftime('%Y-%m-%d') if v.start_variance[0] else 'None' }} →
+                            {{ v.start_variance[1].strftime('%Y-%m-%d') if v.start_variance[1] else 'None' }}
+                            <br>
+                        {% endif %}
+                        {% if v.end_variance %}
+                            End changed:
+                            {{ v.end_variance[0].strftime('%Y-%m-%d') if v.end_variance[0] else 'None' }} →
+                            {{ v.end_variance[1].strftime('%Y-%m-%d') if v.end_variance[1] else 'None' }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
