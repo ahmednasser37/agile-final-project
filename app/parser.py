@@ -21,8 +21,20 @@ def parse_date(date_str: str) -> datetime | None:
         return None
 
 def _parse_with_xerparser(filepath: str) -> NormalizedSchedule:
-    with open(filepath, 'r') as f:
-        file_content = f.read()
+    file_content = None
+    encodings = ['utf-8', 'windows-1252', 'latin-1', 'iso-8859-1']
+
+    for enc in encodings:
+        try:
+            with open(filepath, 'r', encoding=enc) as f:
+                file_content = f.read()
+            break
+        except UnicodeDecodeError:
+            continue
+
+    if file_content is None:
+        raise ValueError(f"Failed to read file {filepath} with supported encodings.")
+
     xer = Xer(file_content)
 
     projects = xer.projects
@@ -69,8 +81,19 @@ def _parse_with_xerparser(filepath: str) -> NormalizedSchedule:
 
 
 def _parse_with_mock(filepath: str) -> NormalizedSchedule:
-    with open(filepath, 'r') as f:
-        lines = f.readlines()
+    lines = None
+    encodings = ['utf-8', 'windows-1252', 'latin-1', 'iso-8859-1']
+
+    for enc in encodings:
+        try:
+            with open(filepath, 'r', encoding=enc) as f:
+                lines = f.readlines()
+            break
+        except UnicodeDecodeError:
+            continue
+
+    if lines is None:
+        raise ValueError(f"Failed to read mock file {filepath} with supported encodings.")
 
     project_id = ""
     project_name = ""
