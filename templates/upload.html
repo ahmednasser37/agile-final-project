@@ -4,17 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XER Schedule Comparator</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 2rem; background: #f9fafb; color: #111827; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        h1 { margin-top: 0; color: #1f2937; }
-        .form-group { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-        input[type="file"] { display: block; width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; }
-        button { background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 1rem; }
-        button:hover { background: #2563eb; }
-        .flash { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -29,7 +19,7 @@
           {% endif %}
         {% endwith %}
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
             <div class="form-group">
                 <label for="baseline">Baseline Schedule (.xer)</label>
                 <input type="file" name="baseline" id="baseline" accept=".xer" required>
@@ -38,8 +28,23 @@
                 <label for="updated">Updated Schedule (.xer)</label>
                 <input type="file" name="updated" id="updated" accept=".xer" required>
             </div>
-            <button type="submit">Compare Schedules</button>
+            <button type="submit" id="submitBtn">
+                <span class="loader" id="loader"></span>
+                <span id="btnText">Compare Schedules</span>
+            </button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            var btn = document.getElementById('submitBtn');
+            var loader = document.getElementById('loader');
+            var btnText = document.getElementById('btnText');
+
+            btn.disabled = true;
+            loader.style.display = 'inline-block';
+            btnText.innerText = 'Analyzing Schedules...';
+        });
+    </script>
 </body>
 </html>

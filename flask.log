@@ -1,0 +1,14 @@
+ * Serving Flask app 'main'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 105-608-566
+127.0.0.1 - - [10/May/2026 16:06:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 16:06:56] "GET /static/style.css HTTP/1.1" 200 -
+OPENROUTER_API_KEY is not set. Skipping AI summary.
+127.0.0.1 - - [10/May/2026 16:06:57] "[32mPOST / HTTP/1.1[0m" 302 -
+127.0.0.1 - - [10/May/2026 16:06:57] "GET /dashboard/dfa53231-1767-466c-ace3-39ca55cb6c8e HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 16:06:57] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
