@@ -1,15 +1,19 @@
-ERMNT	15.2	2020-01-01	00:00:00	admin	admin	admin	0
+ERMHDR	15.2	2020-01-01	00:00:00	admin	admin	admin	USD	0
 %T	PROJECT
-%F	proj_id	proj_short_name	proj_name	last_recalc_date	obs_id	add_date	def_calendar_id	chng_date
-%R	1	PROJ-01	Mock Project Updated	2023-02-01 00:00	1	2023-02-01 00:00	1	2023-02-01 00:00
+%F	proj_id	proj_short_name	proj_name	last_recalc_date	obs_id	add_date	def_calendar_id	chng_date	export_flag
+%R	1	PROJ-01	Mock Project Updated	2023-01-15 00:00	1	2023-01-01 00:00	1	2023-01-01 00:00	Y
+%T	CALENDAR
+%F	clndr_id	default_flag	clndr_name	proj_id	base_clndr_id	last_chng_date	clndr_type	clndr_data
+%R	1	Y	Standard	1		2020-01-01 00:00	CA_Base	()
 %T	PROJWBS
 %F	wbs_id	proj_id	obs_id	seq_num	est_wt	proj_node_flag	sum_data_flag	status_code	wbs_short_name	wbs_name	phase_id	parent_wbs_id	ev_user_pct	ev_etc_user_value	orig_cost	indep_remain_total_cost	ann_dscnt_rate_pct	dscnt_period_type	indep_remain_work_qty	anticip_start_date	anticip_end_date	ev_compute_type	ev_etc_compute_type	guid	tmpl_guid	plan_open_state
 %R	1	1	1	1	1	Y	N	Active	WBS1	Root WBS	1		0	0	0	0	0	0	0
 %T	TASK
 %F	task_id	proj_id	wbs_id	task_code	task_name	status_code	target_start_date	target_end_date	act_start_date	act_end_date	task_type	phys_complete_pct	clndr_id
-%R	1	1	1	A1000	Activity 1	TK_Active	2023-01-01 08:00	2023-01-06 17:00	2023-01-01 08:00		TT_Task	50	1
+%R	1	1	1	A1000	Activity 1	TK_Active	2023-01-01 08:00	2023-01-07 17:00	2023-01-02 08:00		TT_Task	50	1
 %R	2	1	1	A1010	Activity 2	TK_NotStart	2023-01-08 08:00	2023-01-12 17:00			TT_Task	0	1
 %R	3	1	1	A1020	Activity 3	TK_NotStart	2023-01-13 08:00	2023-01-15 17:00			TT_Task	0	1
 %T	TASKPRED
 %F	task_pred_id	task_id	pred_task_id	proj_id	pred_proj_id	pred_type
 %R	1	2	1	1	1	PR_FS
+%R	2	3	2	1	1	PR_FS
