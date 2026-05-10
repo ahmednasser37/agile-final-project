@@ -1,7 +1,10 @@
-ERMNT	15.2	2020-01-01	00:00:00	admin	admin	admin	0
+ERMHDR	15.2	2020-01-01	00:00:00	admin	admin	admin	USD	0
 %T	PROJECT
-%F	proj_id	proj_short_name	proj_name	last_recalc_date	obs_id	add_date	def_calendar_id	chng_date
-%R	1	PROJ-01	Mock Project Baseline	2023-01-01 00:00	1	2023-01-01 00:00	1	2023-01-01 00:00
+%F	proj_id	proj_short_name	proj_name	last_recalc_date	obs_id	add_date	def_calendar_id	chng_date	export_flag
+%R	1	PROJ-01	Mock Project Baseline	2023-01-01 00:00	1	2023-01-01 00:00	1	2023-01-01 00:00	Y
+%T	CALENDAR
+%F	clndr_id	default_flag	clndr_name	proj_id	base_clndr_id	last_chng_date	clndr_type	clndr_data
+%R	1	Y	Standard	1		2020-01-01 00:00	CA_Base	()
 %T	PROJWBS
 %F	wbs_id	proj_id	obs_id	seq_num	est_wt	proj_node_flag	sum_data_flag	status_code	wbs_short_name	wbs_name	phase_id	parent_wbs_id	ev_user_pct	ev_etc_user_value	orig_cost	indep_remain_total_cost	ann_dscnt_rate_pct	dscnt_period_type	indep_remain_work_qty	anticip_start_date	anticip_end_date	ev_compute_type	ev_etc_compute_type	guid	tmpl_guid	plan_open_state
 %R	1	1	1	1	1	Y	N	Active	WBS1	Root WBS	1		0	0	0	0	0	0	0

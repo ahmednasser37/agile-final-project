@@ -7,14 +7,14 @@ from app.compare import ScheduleComparison
 
 logger = logging.getLogger(__name__)
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
 
-# Choose a capable free model (e.g., Llama 3 8B or Google Gemini Flash via OpenRouter)
-DEFAULT_MODEL = "google/gemini-2.5-flash:free"
+# Choose a capable free model from SiliconFlow
+DEFAULT_MODEL = "Qwen/Qwen2.5-7B-Instruct"
 
 def generate_ai_summary(comparison: ScheduleComparison) -> Dict[str, Any]:
-    if not OPENROUTER_API_KEY:
-        logger.warning("OPENROUTER_API_KEY is not set. Skipping AI summary.")
+    if not SILICONFLOW_API_KEY:
+        logger.warning("SILICONFLOW_API_KEY is not set. Skipping AI summary.")
         return {
             "executive_summary": "AI summary is disabled because the API key is not configured.",
             "key_risks": [],
@@ -54,9 +54,7 @@ Return ONLY valid JSON, nothing else.
 """
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "HTTP-Referer": "http://localhost:5000",
-        "X-Title": "XER Schedule Comparator",
+        "Authorization": f"Bearer {SILICONFLOW_API_KEY}",
         "Content-Type": "application/json"
     }
 
@@ -70,7 +68,7 @@ Return ONLY valid JSON, nothing else.
 
     try:
         response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
+            "https://api.siliconflow.cn/v1/chat/completions",
             headers=headers,
             json=payload,
             timeout=30
@@ -80,7 +78,7 @@ Return ONLY valid JSON, nothing else.
         content = data["choices"][0]["message"]["content"]
         return json.loads(content)
     except Exception as e:
-        logger.error(f"Error calling OpenRouter API: {e}")
+        logger.error(f"Error calling SiliconFlow API: {e}")
         return {
             "executive_summary": f"Failed to generate AI summary: {str(e)}",
             "key_risks": [],

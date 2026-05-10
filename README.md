@@ -7,7 +7,7 @@ A web app that accepts exactly two Primavera P6 XER files (a baseline and an upd
 - **XER Parsing**: Leverages PyP6Xer (xerparser) to extract project data, activities, and data dates (`last_recalc_date`).
 - **Data Date Handling**: Prominently shows both dates. Uses the cutoff date logic where applicable.
 - **Deterministic Comparison**: Identifies added, deleted, changed activities, and computes start/finish variances.
-- **AI Executive Summary**: Sends a compact JSON footprint of schedule variances to a free OpenRouter model (Gemini 2.5 flash) for narrative insights and schedule risk analysis.
+- **AI Executive Summary**: Sends a compact JSON footprint of schedule variances to a free SiliconFlow model (Qwen 2.5 7B Instruct) for narrative insights and schedule risk analysis.
 - **Caching Engine**: Stores parsed models and variance dictionaries on local filesystem cache.
 - **Export to CSV**: Generates a fast CSV export of all the computed variances.
 
@@ -28,8 +28,8 @@ pip install -r requirements.txt
 ## Running the application (Locally)
 
 ```bash
-# Export your OpenRouter API key (Required for AI features)
-export OPENROUTER_API_KEY="your-api-key-here"
+# Export your SiliconFlow API key (Required for AI features)
+export SILICONFLOW_API_KEY="your-api-key-here"
 
 # Start the Flask app
 python -m app.main
@@ -47,14 +47,14 @@ Render provides a generous free tier for Python web services.
 2. Click **New +** -> **Blueprint**.
 3. Connect your GitHub repository containing this code.
 4. Render will automatically detect the `render.yaml` file and set up the deployment.
-5. Once created, go to the project's **Environment** tab on Render and add your `OPENROUTER_API_KEY` secret.
+5. Once created, go to the project's **Environment** tab on Render and add your `SILICONFLOW_API_KEY` secret.
 
 ### Option 2: Hugging Face Spaces
 Hugging Face Spaces allows you to host Docker-based apps for free.
 1. Go to [Hugging Face Spaces](https://huggingface.co/spaces) and click **Create new Space**.
 2. Set the "Space SDK" to **Docker**.
 3. Upload all the files from this repository (or clone it to your space). The included `Dockerfile` is already configured for the HF environment (port 7860).
-4. Go to your Space **Settings** -> **Variables and secrets** and add a secret named `OPENROUTER_API_KEY`.
+4. Go to your Space **Settings** -> **Variables and secrets** and add a secret named `SILICONFLOW_API_KEY`.
 
 ## Tests
 
