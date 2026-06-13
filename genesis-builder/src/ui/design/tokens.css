@@ -1,0 +1,43 @@
+:root {
+  --void-950: #070709;
+  --void-900: #0a0a0f;
+  --void-850: #0e0e15;
+  --void-800: #12121a;
+  --void-700: #1a1a26;
+  --void-600: #242433;
+
+  --ink-100: #f2f2f5;
+  --ink-200: #c9c9d4;
+  --ink-300: #8e8ea0;
+  --ink-400: #5c5c70;
+
+  --amber-400: #ffc94d;
+  --amber-500: #f5a623;
+  --amber-600: #e0931a;
+  --amber-glow: rgba(245, 166, 35, 0.14);
+
+  --red-500: #ff4d4d;
+  --green-500: #3ddc84;
+  --blue-500: #4da3ff;
+
+  --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-1: 2px;
+  --radius-2: 4px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--void-900);
+  color: var(--ink-100);
+  font-family: var(--font-ui);
+}
